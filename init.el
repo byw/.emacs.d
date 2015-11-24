@@ -90,3 +90,6 @@
 (bind-keys
  :map global-map
  ("M-z" . mark-line))
+
+;; Octave mode
+(add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
