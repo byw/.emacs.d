@@ -3,17 +3,31 @@
 (when (display-graphic-p)
   (tool-bar-mode 0))
 
-;; MELPA
+(global-whitespace-mode t)
+
+;; add
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/"))
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(package-initialize) ;; You might already have this line
+(package-initialize)
 
 (setenv "PATH" (concat (getenv "PATH") ":~/bin"))
 (setq exec-path (append exec-path '("~/bin")))
 
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin")))
+
+
+
+;; flycheck error checking
+(global-flycheck-mode)
+
+;; company-mode autocomplete
+(add-hook 'elm-mode-hook
+          (lambda ()
+            (setq company-backends '(company-elm))))
 
 ;; swap cmd and opt keys
 (setq mac-option-modifier 'super)
@@ -48,12 +62,15 @@
     (cljr-add-keybindings-with-prefix "C-c C-m"))
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
-(add-hook 'clojure-mode-hook #'subword-mode) ;; Support camel case for java interop
+(add-hook 'clojure-mode-hook #'subword-mode) ;; Camel case for java interop
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'clojure-mode-hook #'smartparens-strict-mode)
 
 (load "~/.emacs.d/smartparens.el")
 
+;; Parinfer (a smarter paredit mode) UNFINISHED!!!
+;(load "~/.emacs.d/parinfer-mode/parinfer-mode.el")
+;(add-hook 'clojure-mode-hook #'parinfer-mode)
 
 ;; Mark a line
 (defun mark-line (&optional arg)
@@ -74,7 +91,8 @@
 ;; Line numbers
 (setq linum-format "%4d")
 (defun my-linum-mode-hook ()
-  (linum-mode t))
+  (linum-mode t)
+  (column-number-mode t))
 (add-hook 'find-file-hook 'my-linum-mode-hook)
 
 
@@ -93,3 +111,13 @@
 
 ;; Octave mode
 (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
+
+
+;; Elm
+(with-eval-after-load 'company
+  (add-to-list 'company-backends 'company-elm))
+(add-hook 'elm-mode-hook #'elm-oracle-setup-completion)
+
+(require 'flycheck)
+(add-hook 'flycheck-mode-hook 'flycheck-elm-setup)
+
