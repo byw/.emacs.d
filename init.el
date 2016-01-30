@@ -5,7 +5,6 @@
 
 (global-whitespace-mode t)
 
-;; add
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/"))
 (when (< emacs-major-version 24)
@@ -13,11 +12,19 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
+;; for purescript support
+(add-to-list 'package-archives
+             '("emacs-pe" . "https://emacs-pe.github.io/packages/"))
+
+
 (setenv "PATH" (concat (getenv "PATH") ":~/bin"))
 (setq exec-path (append exec-path '("~/bin")))
 
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
 (setq exec-path (append exec-path '("/usr/local/bin")))
+
+(setenv "PATH" (concat (getenv "PATH") ":/Users/bob/.cabal/bin"))
+(setq exec-path (append exec-path '("/Users/bob/.cabal/bin")))
 
 
 
@@ -121,3 +128,7 @@
 (require 'flycheck)
 (add-hook 'flycheck-mode-hook 'flycheck-elm-setup)
 
+
+;; Purescript
+(eval-after-load 'flycheck
+  '(flycheck-purescript-setup))

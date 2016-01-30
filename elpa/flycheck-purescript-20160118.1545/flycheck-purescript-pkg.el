@@ -1,0 +1,1 @@
+(define-package "flycheck-purescript" "20160118.1545" "Flycheck: PureScript support" '((emacs "24.3") (flycheck "0.22") (dash "2.12.0") (let-alist "1.0.4") (seq "1.11")) :url "https://github.com/emacs-pe/flycheck-purescript" :keywords '("convenience" "tools" "languages"))
