@@ -132,3 +132,14 @@
 ;; Purescript
 (eval-after-load 'flycheck
   '(flycheck-purescript-setup))
+
+
+;; Coffeescript
+;; This gives you a tab of 2 spaces
+(custom-set-variables '(coffee-tab-width 2))
+(custom-set-variables '(coffee-indent-tabs-mode nil))
+
+;; JavaScript
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+(setq js-indent-level 2)

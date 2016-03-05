@@ -1,4 +1,5 @@
 ;; Smartparens keybindings
+
 (bind-keys
  :map smartparens-mode-map
  ("C-M-a" . sp-beginning-of-sexp)
@@ -47,3 +48,16 @@
  ("C-c \"" . wrap-with-double-quotes)
  ("C-c _"  . wrap-with-underscores)
  ("C-c `"  . wrap-with-back-quotes))
+
+
+;; Lisp-specific configs
+
+(sp-with-modes sp--lisp-modes
+  ;; disable ', it's the quote character!
+  (sp-local-pair "'" nil :actions nil)
+  ;; also only use the pseudo-quote inside strings where it serve as
+  ;; hyperlink.
+  (sp-local-pair "`" "'" :when '(sp-in-string-p))
+  (sp-local-pair "(" nil
+                 :pre-handlers '(live-sp-add-space-before-sexp-insertion)
+                 :post-handlers '(live-sp-add-space-after-sexp-insertion)))
