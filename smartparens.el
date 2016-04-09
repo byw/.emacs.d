@@ -52,12 +52,4 @@
 
 ;; Lisp-specific configs
 
-(sp-with-modes sp--lisp-modes
-  ;; disable ', it's the quote character!
-  (sp-local-pair "'" nil :actions nil)
-  ;; also only use the pseudo-quote inside strings where it serve as
-  ;; hyperlink.
-  (sp-local-pair "`" "'" :when '(sp-in-string-p))
-  (sp-local-pair "(" nil
-                 :pre-handlers '(live-sp-add-space-before-sexp-insertion)
-                 :post-handlers '(live-sp-add-space-after-sexp-insertion)))
+

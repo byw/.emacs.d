@@ -55,8 +55,18 @@
 
 
 ;; Paren matching
+(require 'smartparens)
 (show-paren-mode t)
 (add-hook 'emacs-lisp-mode-hook #'smartparens-strict-mode)
+(sp-with-modes sp--lisp-modes
+  ;; disable ', it's the quote character!
+  (sp-local-pair "'" nil :actions nil)
+  ;; also only use the pseudo-quote inside strings where it serve as
+  ;; hyperlink.
+  (sp-local-pair "`" "'" :when '(sp-in-string-p))
+  (sp-local-pair "(" nil
+                 :pre-handlers '(live-sp-add-space-before-sexp-insertion)
+                 :post-handlers '(live-sp-add-space-after-sexp-insertion)))
 
 
 ;; Clojure
@@ -74,6 +84,8 @@
 (add-hook 'clojure-mode-hook #'smartparens-strict-mode)
 
 (load "~/.emacs.d/smartparens.el")
+
+(setq clojure-defun-style-default-indent t)
 
 ;; Parinfer (a smarter paredit mode) UNFINISHED!!!
 ;(load "~/.emacs.d/parinfer-mode/parinfer-mode.el")
